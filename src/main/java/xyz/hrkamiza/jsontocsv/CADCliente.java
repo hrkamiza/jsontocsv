@@ -1,12 +1,25 @@
 package xyz.hrkamiza.jsontocsv;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class CADCliente {
-    private Item item;
+	@SerializedName("Item")
+	private Item item;
 
-    @JsonProperty("Item")
-    public Item getItem() { return item; }
-    @JsonProperty("Item")
-    public void setItem(Item value) { this.item = value; }
+	@JsonProperty("Item")
+	public Item getItem() {
+		return item;
+	}
+
+	@JsonProperty("Item")
+	public void setItem(Item value) {
+		this.item = value;
+	}
+
+	@Override
+	public String toString() {
+		return "CADCliente [item=" + item + "]";
+	}
+
 }

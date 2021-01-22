@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,19 +27,17 @@ import com.google.gson.Gson;
  * Hello world!
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+	public static void main(String[] args) {
 
 		// ler arquivo json
 
-		List<CADCliente> logins = lerArquivoJson();
+		List<CADCliente> cadcliente = lerArquivoJson();
 
 		// gerar csv
 
-		System.out.println("tamano logins: " + logins.size());
-		gerarcsv(logins);
+		System.out.println("tamanho: " + cadcliente.size());
+		gerarcsv(cadcliente);
 
 	}
 
@@ -47,16 +46,13 @@ public class App
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-		Sheet sheet = workbook.createSheet("RegistroLogin" + sdf.format(new Date()));
-		sheet.setColumnWidth(0, 4000);
-		sheet.setColumnWidth(1, 4000);
+		Sheet sheet = workbook.createSheet("CadRegistro" + sdf.format(new Date()));
+		sheet.setColumnWidth(0, 3000);
+		sheet.setColumnWidth(1, 3000);
 		sheet.setColumnWidth(2, 3000);
 		sheet.setColumnWidth(3, 5000);
-		sheet.setColumnWidth(4, 1000);
-		sheet.setColumnWidth(5, 4000);
-		sheet.setColumnWidth(6, 3000);
-		sheet.setColumnWidth(7, 4000);
-		sheet.setColumnWidth(8, 4000);
+		sheet.setColumnWidth(4, 5000);
+		sheet.setColumnWidth(5, 3000);
 
 		Row header = sheet.createRow(0);
 
@@ -74,7 +70,7 @@ public class App
 
 		File currDir = new File(".");
 		String path = currDir.getAbsolutePath();
-		String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
+		String fileLocation = path.substring(0, path.length() - 1) + "CadWifiCli2020.xlsx";
 
 		FileOutputStream outputStream;
 		try {
@@ -96,59 +92,57 @@ public class App
 		CellStyle style = workbook.createCellStyle();
 		style.setWrapText(true);
 
-		int linha = 2;
+		int linha = 1;
 
-		for (cadcliente login : cadclientes) {
+		for (CADCliente cadcliente : cadclientes) {
 
-			if (linha %10000==0) {
+			if (linha % 10000 == 0) {
 
 				System.out.println("Gerando linha: " + linha);
 			}
 			Row row = sheet.createRow(linha++);
 			Cell cell = row.createCell(0);
-			cell.setCellValue(login.getItem().getClienteIP().getS());
+			cell.setCellValue(cadcliente.getItem().getCpf().getN());
 			cell.setCellStyle(style);
 
 			cell = row.createCell(1);
-			cell.setCellValue(login.getItem().getClienteMAC().getS());
+			cell.setCellValue(dateConverter(cadcliente.getItem().getDataCadastroCliente().getS()));
 			cell.setCellStyle(style);
 
 			cell = row.createCell(2);
-			cell.setCellValue(login.getItem().getCpf().getN());
+			cell.setCellValue(cadcliente.getItem().getDataNascimento().getS());
 			cell.setCellStyle(style);
 
 			cell = row.createCell(3);
-			cell.setCellValue(login.getItem().getDataRegistro().getS());
+			if (cadcliente.getItem().getEmail() != null) {
+				cell.setCellValue(cadcliente.getItem().getEmail().getS());
+
+			} else {
+				cell.setCellValue("N/A");
+			}
 			cell.setCellStyle(style);
 
 			cell = row.createCell(4);
-			cell.setCellValue(login.getItem().getDuracaoSessao().getN());
+			cell.setCellValue(cadcliente.getItem().getNome().getS());
 			cell.setCellStyle(style);
 
 			cell = row.createCell(5);
-			cell.setCellValue(login.getItem().getGatewayID().getN());
-			cell.setCellStyle(style);
+			if (cadcliente.getItem().getNumeroCelular() != null) {
+				cell.setCellValue(cadcliente.getItem().getNumeroCelular().getN());
 
-			cell = row.createCell(6);
-			cell.setCellValue(login.getItem().getLoja().getN());
-			cell.setCellStyle(style);
+			} else {
+				cell.setCellValue("N/A");
+			}
 
-			cell = row.createCell(7);
-			cell.setCellValue(login.getItem().getNodeID().getN());
-			cell.setCellStyle(style);
-
-			cell = row.createCell(8);
-			cell.setCellValue(login.getItem().getNodeMAC().getS());
 			cell.setCellStyle(style);
 
 		}
-		System.out.println("Lista executara");
+		System.out.println("Lista executada");
 	}
 
 	private static void criaHeader(Row header, CellStyle headerStyle) {
 
-		String[] headers = { "clienteIp", "clienteMac", "cpf", "dataRegistro", "duracaoSessao", "gatewayId", "loja",
-				"nodeId", "nodeMac" };
+		String[] headers = { "cpf", "dataCadastroCliente", "dataNascimento", "email", "nome", "numeroCelular" };
 
 		for (int i = 0; i < headers.length; i++) {
 
@@ -205,5 +199,10 @@ public class App
 		return cadclientes;
 
 	}
-    }
+
+	public static String dateConverter(String strDate) {
+		java.util.Date date = Date.from(Instant.parse(strDate));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(date);
+	}
 }

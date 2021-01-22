@@ -1,42 +1,82 @@
 package xyz.hrkamiza.jsontocsv;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Item {
-    private Cpf cpf;
-    private DataCadastroCliente dataCadastroCliente;
-    private DataCadastroCliente dataNascimento;
-    private DataCadastroCliente email;
-    private DataCadastroCliente nome;
-    private Cpf numeroCelular;
+	private TipoN cpf;
+	private TipoS dataCadastroCliente;
+	private TipoS dataNascimento;
+	private TipoS email;
+	@SerializedName("nome")
+	private TipoS nome;
+	@SerializedName("numeroCelular")
+	private TipoN numeroCelular;
 
-    @JsonProperty("cpf")
-    public Cpf getCpf() { return cpf; }
-    @JsonProperty("cpf")
-    public void setCpf(Cpf value) { this.cpf = value; }
+	@JsonProperty("cpf")
+	public TipoN getCpf() {
+		return cpf;
+	}
 
-    @JsonProperty("dataCadastroCliente")
-    public DataCadastroCliente getDataCadastroCliente() { return dataCadastroCliente; }
-    @JsonProperty("dataCadastroCliente")
-    public void setDataCadastroCliente(DataCadastroCliente value) { this.dataCadastroCliente = value; }
+	@JsonProperty("cpf")
+	public void setCpf(TipoN value) {
+		this.cpf = value;
+	}
 
-    @JsonProperty("dataNascimento")
-    public DataCadastroCliente getDataNascimento() { return dataNascimento; }
-    @JsonProperty("dataNascimento")
-    public void setDataNascimento(DataCadastroCliente value) { this.dataNascimento = value; }
+	@JsonProperty("dataCadastroCliente")
+	public TipoS getDataCadastroCliente() {
+		return dataCadastroCliente;
+	}
 
-    @JsonProperty("email")
-    public DataCadastroCliente getEmail() { return email; }
-    @JsonProperty("email")
-    public void setEmail(DataCadastroCliente value) { this.email = value; }
+	@JsonProperty("dataCadastroCliente")
+	public void setDataCadastroCliente(TipoS value) {
+		this.dataCadastroCliente = value;
+	}
 
-    @JsonProperty("nome")
-    public DataCadastroCliente getNome() { return nome; }
-    @JsonProperty("nome")
-    public void setNome(DataCadastroCliente value) { this.nome = value; }
+	@JsonProperty("dataNascimento")
+	public TipoS getDataNascimento() {
+		return dataNascimento;
+	}
 
-    @JsonProperty("numeroCelular")
-    public Cpf getNumeroCelular() { return numeroCelular; }
-    @JsonProperty("numeroCelular")
-    public void setNumeroCelular(Cpf value) { this.numeroCelular = value; }
+	@JsonProperty("dataNascimento")
+	public void setDataNascimento(TipoS value) {
+		this.dataNascimento = value;
+	}
+
+	@JsonProperty("email")
+	public TipoS getEmail() {
+		return email;
+	}
+
+	@JsonProperty("email")
+	public void setEmail(TipoS value) {
+		this.email = value;
+	}
+
+	@JsonProperty("nome")
+	public TipoS getNome() {
+		return nome;
+	}
+
+	@JsonProperty("nome")
+	public void setNome(TipoS value) {
+		this.nome = value;
+	}
+
+	@JsonProperty("numeroCelular")
+	public TipoN getNumeroCelular() {
+		return numeroCelular;
+	}
+
+	@JsonProperty("numeroCelular")
+	public void setNumeroCelular(TipoN value) {
+		this.numeroCelular = value;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [cpf=" + cpf + ", dataCadastroCliente=" + dataCadastroCliente + ", dataNascimento="
+				+ dataNascimento + ", email=" + email + ", nome=" + nome + ", numeroCelular=" + numeroCelular + "]";
+	}
+
 }
